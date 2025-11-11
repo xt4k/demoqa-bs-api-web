@@ -1,0 +1,96 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run mypy
+        run: |
+          mypy . | tee mypy-report.txt
+      - name: Upload mypy report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mypy-report
+          path: mypy-report.txt
+
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run API tests (xdist)
+        run: pytest tests/api_client -n auto --alluredir=allure-results --html=reports/pytest-report-api_client.html
+      - name: Archive reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: api_client-reports
+          path: |
+            allure-results
+            reports/pytest-report-api.html
+
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+      - name: Run UI tests (xdist by groups)
+        env:
+          DEMOQA_BASE_URL: https://demoqa.com
+          DEMOQA_API_BASE: https://demoqa.com
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: |
+          echo "Chrome path: $CHROME_PATH"
+          pytest tests/ui -n 4 --dist=loadgroup --alluredir=allure-results --html=reports/pytest-report-ui.html
+      - name: Archive reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-reports
+          path: |
+            allure-results
+            reports/pytest-report-ui.html
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+      - name: Run E2E tests (xdist, headless)
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: |
+          echo "Chrome path: $CHROME_PATH"
+          pytest tests/e2e -n auto --alluredir=allure-results --html=reports/pytest-report-e2e.html
+      - name: Archive reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-reports
+          path: |
+            allure-results
+            reports/pytest-report-e2e.html

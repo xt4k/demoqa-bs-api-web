@@ -1,0 +1,68 @@
+{
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "**/__pycache__",
+    ".git",
+    ".venv",
+    ".idea",
+    ".vscode",
+    "build",
+    "dist",
+    ".pytest_cache",
+    ".mypy_cache",
+    "node_modules"
+  ],
+  "extraPaths": [
+    "."
+  ],
+  "pythonVersion": "3.11",
+  "venvPath": ".",
+  "venv": ".venv",
+  "useLibraryCodeForTypes": true,
+  "typeCheckingMode": "standard",
+  "reportAttributeAccessIssue": "error",
+  "reportArgumentType": "error",
+  "reportAssignmentType": "error",
+  "reportReturnType": "error",
+  "reportCallIssue": "error",
+  "reportOperatorIssue": "error",
+  "reportGeneralTypeIssues": "warning",
+  "reportOptionalMemberAccess": "error",
+  "reportOptionalCall": "error",
+  "reportOptionalSubscript": "error",
+  "reportOptionalIterable": "warning",
+  "reportUnknownVariableType": "information",
+  "reportUnknownArgumentType": "information",
+  "reportUnknownParameterType": "information",
+  "reportUnknownMemberType": "information",
+  "reportUnknownLambdaType": "information",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": "none",
+  "reportUnusedImport": "warning",
+  "reportUnusedVariable": "information",
+  "reportUnboundVariable": "error",
+  "reportRedeclaration": "warning",
+  "reportPrivateUsage": "none",
+  "reportPrivateImportUsage": "none",
+  "reportInconsistentOverload": "warning",
+  "reportOverlappingOverload": "warning",
+  "reportNoOverloadImplementation": "error",
+  "reportIncompatibleMethodOverride": "error",
+  "reportIncompatibleVariableOverride": "warning",
+  "reportUntypedBaseClass": "none",
+  "reportUntypedFunctionDecorator": "none",
+  "reportUntypedNamedTuple": "none",
+  "reportInvalidTypeForm": "warning",
+  "reportInvalidTypeArguments": "warning",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "pythonVersion": "3.11",
+      "extraPaths": [
+        "."
+      ]
+    }
+  ]
+}

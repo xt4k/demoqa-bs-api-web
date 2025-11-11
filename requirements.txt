@@ -1,0 +1,16 @@
+allure-python-commons
+pytest>=8.0.0
+pytest-xdist>=3.5.0
+requests~=2.32
+urllib3~=2.2
+selenium>=4.24.0
+allure-pytest>=2.13.5
+pytest-html>=4.1.1
+mypy>=1.10.0
+pyright >=1.1.407
+dataclasses-json>=0.6.7
+pytest-check
+pytest-flakes
+pytest-rerunfailures
+pytest-xdist
+pytest-lazy-fixture
