@@ -12,5 +12,8 @@ dataclasses-json>=0.6.7
 pytest-check
 pytest-flakes
 pytest-rerunfailures
-pytest-xdist
 pytest-lazy-fixture
+colorama>=0.4.6
+html-reporter>=0.2.6
+webdriver_manager>=4.0.2
+assertpy>=1.1

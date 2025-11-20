@@ -1,18 +1,20 @@
 # conftest.py
 from __future__ import annotations
 
+import contextlib
 from typing import Generator
 
 import allure
 import pytest
 
-from api_client.http_client import HttpClient
-from api_service.account_service import AccountService
-from api_service.book_store_service import BookStoreService
-from utils.allure_api_logger import AllureApiLogger
-from utils.logger import Logger
+from core.http.http_client import HttpClient
+from core.api.services.account_service import AccountService
+from core.api.services.book_store_service import BookStoreService
+from core.http.hooks.allure import AllureApiLogger
+from core.logging import Logger
+from core.providers.data_generator import generate_user_request_dict
 
-log = Logger.get_logger("Conftest", prefix="TEST")
+log = Logger.get_logger("conftest", prefix="api_test")
 
 
 @pytest.fixture(scope="session")
@@ -26,11 +28,11 @@ def http_root() -> Generator[HttpClient, None, None]:
         f"ENV={cfg.env_name}\n"
         f"API_BASE={cfg.api_uri}\n"
         f"WEB_BASE={cfg.web_url}\n"
-        f"TEST_USER={cfg.user_name}\n"
-        f"USER_ID={cfg.user_id or ''}\n"
+        f"TEST_USER={cfg.api_user_name}\n"
+        f"USER_ID={cfg.api_user_id or ''}\n"
     )
     allure.attach(env_info, name="Environment", attachment_type=allure.attachment_type.TEXT)
-    log.info(f"ENV loaded: env={cfg.env_name} api={cfg.api_uri} user={cfg.user_name}")
+    log.info(f"ENV loaded: env={cfg.env_name} api={cfg.api_uri} user={cfg.api_user_name}")
     try:
         yield http
     finally:
@@ -54,3 +56,21 @@ def book_store_service(http_root: HttpClient) -> BookStoreService:
     srv = BookStoreService(is_auth=False, session=http_root.s)
     log.info("BookStoreService uses shared HttpClient session")
     return srv
+
+@pytest.fixture()
+def user_id(account_service: AccountService) -> str:
+    """
+    Create a fresh DemoQA user for BookStore tests and clean it up afterwards.
+    """
+    # Arrange: create user with random valid credentials
+    create_user_dict = generate_user_request_dict()
+    response = account_service.create_user_request(create_user_dict)
+    body = response.json()
+
+    uid = body["userID"]
+
+    yield uid
+
+    # Teardown: best-effort delete user, ignore errors if already removed
+    with contextlib.suppress(Exception):
+        account_service.delete_user(uid)
