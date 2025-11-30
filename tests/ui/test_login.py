@@ -1,6 +1,7 @@
 import allure
 from assertpy import soft_assertions, assert_that
 
+from core.reporting.html_report_decorator import html_title
 from core.ui.page_objects.login_page import LoginPage
 from core.ui.page_objects.profile_page import ProfilePage
 from tests.ui.base_test import BaseTest
@@ -39,6 +40,7 @@ class TestLoginPage(BaseTest):
             assert_that(login_page.password_default()).contains("Password")
 
     @allure.title("Logout from Profile → back to Login")
+    @html_title("Logout from Profile → back to Login")
     def test_api_login_ui_logout(self, driver):
         profile_page = self.open_page_with_auth_cookies(driver=driver, page_cls=ProfilePage, path="/profile")
         with (soft_assertions()):

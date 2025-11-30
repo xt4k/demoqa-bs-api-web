@@ -8,6 +8,8 @@ import allure
 from requests import Session, Response
 
 from core.api.clients.book_store_client import BookStoreClient
+from core.api.models.user_book import UserBook
+from core.reporting.html_report_decorator import html_step
 
 StatusSpec = Union[int, Sequence[int], set]
 
@@ -18,18 +20,28 @@ class BookStoreService(BookStoreClient):
     def __init__(self, *, is_auth: bool = False, session: Optional[Session] = None) -> None:
         super().__init__(is_auth=is_auth, session=session)
 
+    @html_step("BookStore: List books")
     @allure.step("BookStore: List books")
     def list_books(self, *, expect: StatusSpec = 200) -> List[Dict[str, Any]]:
         r = self.get("/BookStore/v1/Books", expected_status_code=expect)
-        books = r.json().get("books", [])
+        books = r.json().get("books")
         self.log.info(f"Books total={len(books)}; first={(books[0].get('title') if books else None)}")
         return books
 
+    @html_step("BookStore: Get book")
     @allure.step("BookStore: Get book {isbn}")
     def get_book(self, isbn: str, *, expect: StatusSpec = 200) -> Dict[str, Any]:
         r = self.get("/BookStore/v1/Book", payload={"ISBN": isbn}, expected_status_code=expect)
         return r.json()
 
+    @html_step("BookStore: Delete books for user")
     @allure.step("BookStore: Delete books for user {user_id}")
-    def delete_user_books(self, user_id: str, token: str, expect: StatusSpec = 200) -> Response:
-        return self.delete_books_request(user_id=user_id, token=token,expect= expect)
+    def delete_user_books(self, user_id: str, token: str=None, expect: StatusSpec = 204) -> Response:
+        return self.delete_books_request(user_id=user_id,token= token, expect=expect)
+
+    @html_step("BookStore: add books for user book shelf")
+    @allure.step("BookStore: add books for user {user_id} book shelf")
+    def add_book_to_user(self, user_id: str, isbn: str, expect: int = 201):
+        body =UserBook.single(user_id=user_id, isbn=isbn).to_payload()
+        r = self.add_user_book_request(body=body, expect=expect)
+        return r.json()

@@ -7,8 +7,9 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from core.logging import Logger
+from core.util.logging import Logger
 from .locators.base_page_locators import BasePageLocators as Loc
+from ...reporting.html_report_decorator import html_step
 
 DEFAULT_TIMEOUT = 10
 if TYPE_CHECKING:
@@ -47,14 +48,17 @@ class BasePage:
     def get_text(self, locator) -> str:
         return self.__visible(locator).text
 
+    @html_step("Return web element attribute {attribute}")
     @allure.step("Return web element attribute {attribute}")
     def _get_element_attribute(self, locator, attribute: str) -> str:
         return self.__visible(locator).get_attribute(attribute)
 
+    @html_step("Return if url contains text {fragment}")
     @allure.step("Return if url contains text {fragment}")
     def url_contains(self, fragment: str) -> bool:
         return self.wait.until(EC.url_contains(fragment))
 
+    @html_step("Get test from `Log out` button")
     @allure.step("Get test from `Log out` button")
     def log_out_btn_text(self) -> str:
         return self.wait.until(EC.visibility_of_element_located(Loc.LOG_OUT_BTN)).text
@@ -63,6 +67,7 @@ class BasePage:
     def logged_user_name(self) -> str:
         return self.wait.until(EC.visibility_of_element_located(Loc.LOGGED_USER_NAME)).text
 
+    @html_step("Logout from Profile page")
     @allure.step("Logout from Profile page")
     def logout(self) -> "LoginPage":
         """Click 'Log out' button and return LoginPage instance."""

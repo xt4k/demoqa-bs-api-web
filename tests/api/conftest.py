@@ -7,10 +7,11 @@ import allure
 import pytest
 
 from core.api.services.account_service import AccountService
-from core.logging import Logger
+from core.api.services.book_store_service import BookStoreService
+from core.util.logging import Logger
 from core.providers.data_generator import generate_user_request_dict
 
-log = Logger.get_logger("account_conftest", prefix="PRE_TEST")
+log = Logger.get_logger("conftest", prefix="api_test_folder")
 
 
 @pytest.fixture(scope="function")
@@ -18,6 +19,12 @@ log = Logger.get_logger("account_conftest", prefix="PRE_TEST")
 def account_service_auth(account_service: AccountService) -> AccountService:
     """Return AccountService authenticated with default user from config."""
     return account_service.authenticate_default()
+
+
+@pytest.fixture(scope="function")
+@allure.step("Authenticate default user via AccountService")
+def book_store_service_auth(book_store_service: BookStoreService) -> BookStoreService:
+    return book_store_service.authenticate_default()
 
 
 @pytest.fixture()

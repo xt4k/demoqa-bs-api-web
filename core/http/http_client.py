@@ -13,7 +13,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from core.config.config import ConfigLoader, RunCfg
-from core.logging import Logger
+from core.util.logging import Logger
 
 StatusSpec = Union[int, Sequence[int], Set[int]]
 
@@ -122,10 +122,10 @@ class HttpClient:
         return self
 
     @allure.step("authenticate for {username}")
-    def authenticate(self, *, username: Optional[str] = None, password: Optional[str] = None) -> str:
-        user = username or self.cfg.api_user_name
-        self.log.info(f"Acquiring token for user '{user}'")
-        token = self._generate_token(user, password)
+    def authenticate(self) -> str:
+        user = self.cfg.api_user_name
+        self.log.info(f"Acquiring token for default api_user '{user}'")
+        token = self._generate_token(user, self.cfg.api_user_password)
         self.set_bearer(token)
         self.log.info("Token acquired successfully")
         return token
@@ -153,8 +153,7 @@ class HttpClient:
             expected_status_code: Optional[StatusSpec] = None,
             timeout: Optional[float] = None,
     ) -> Response:
-        url = endpoint if endpoint.startswith(
-            "http") else f"{self.base}{endpoint if endpoint.startswith('/') else '/' + endpoint}"
+        url = f"{self.base}{endpoint}"
         req_headers: MutableMapping[str, str] = {}
         if headers:
             req_headers.update(headers)
@@ -166,9 +165,7 @@ class HttpClient:
             self.log.debug(f"  json={_shorten(str(json))}")
         if data is not None:
             self.log.debug(f"  data(len)={len(data) if isinstance(data, (bytes, bytearray)) else len(str(data))}")
-        merged_headers = dict(self.s.headers)
-        merged_headers.update(req_headers)
-        self.log.debug(f"  headers={_mask_headers(merged_headers)}")
+        self.log.debug(f"  req_headers={_mask_headers(req_headers)}")
 
         resp = self.s.request(
             method=method.upper(), url=url, params=params, json=json, data=data,
@@ -206,9 +203,13 @@ class HttpClient:
         return self.request("PUT", endpoint, json=payload, headers=headers, expected_status_code=expected_status_code)
 
     @allure.step("send DELETE request to {endpoint}")
-    def delete(self, endpoint: str, headers: Optional[Mapping[str, str]] = None, param=None,
-               expected_status_code: Union[int, Sequence[int], Set[int], None] = (200,204)) -> Response:
-        return self.request("DELETE", endpoint, params=param, headers=headers, expected_status_code=expected_status_code)
+    def delete(self, endpoint: str, params=None, token: str = None, expected_status_code: Union[int, Sequence[int], Set[int], None] = 201) -> Response:
+        if token:
+            headers = ({"Authorization": f"Bearer {token}"})
+        else:
+            headers = self.s.headers
+        return self.request("DELETE", endpoint, params=params, headers=headers,
+                            expected_status_code=expected_status_code)
 
     # ---------- lifecycle ----------
     def close(self) -> None:

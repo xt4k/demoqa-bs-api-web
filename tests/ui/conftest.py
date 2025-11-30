@@ -6,13 +6,11 @@ import os
 import random
 import sys
 import time
-import uuid
 from pathlib import Path
 from urllib.parse import urlsplit
 
 import allure
 import pytest
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -188,107 +186,6 @@ def ui_creds() -> tuple[str, str, str]:
       - config/user/<test_user>.properties
     """
     return ui_cfg.api_user_name, ui_cfg.api_user_password, ui_cfg.ui_user_id
-
-
-# =============================== API fixtures ================================
-class DemoQAApi:
-    """Minimal API client for DemoQA BookStore endpoints."""
-
-    def __init__(self, base_url: str):
-        self.base = base_url.rstrip("/")
-        self.s = requests.Session()
-        self.s.headers.update({"Content-Type": "application/json"})
-
-    # Account endpoints
-    def create_user(self, username: str, password: str):
-        return self.s.post(f"{self.base}/Account/v1/User",
-                           json={"userName": username, "password": password}, timeout=20)
-
-    def login(self, username: str, password: str):
-        r = self.s.post(f"{self.base}/Account/v1/Login",
-                        json={"userName": username, "password": password}, timeout=20)
-        r.raise_for_status()
-        return r.json()  # {userId, username, token, expires}
-
-    def generate_token(self, username: str, password: str):
-        return self.s.post(f"{self.base}/Account/v1/GenerateToken",
-                           json={"userName": username, "password": password}, timeout=20)
-
-    def authorized(self, token: str):
-        return self.s.post(f"{self.base}/Account/v1/Authorized",
-                           json={"token": token},
-                           headers={"Authorization": f"Bearer {token}"},
-                           timeout=20)
-
-    def delete_user(self, user_id: str, token: str):
-        return self.s.delete(f"{self.base}/Account/v1/User/{user_id}",
-                             headers={"Authorization": f"Bearer {token}"},
-                             timeout=20)
-
-
-@pytest.fixture(scope="session")
-def api(base_url) -> DemoQAApi:
-    return DemoQAApi(base_url)
-
-
-def _random_password() -> str:
-    # satisfies DemoQA policy: >=8, upper, lower, digit, special
-    return f"@uto_User{random.randint(10, 99)}A"
-
-
-@pytest.fixture(scope="session")
-def api_auth_user(request, api: DemoQAApi):
-    """
-    Provide a valid DemoQA user (+token) for the session.
-    If DEMOQA_USER/DEMOQA_PASS are set, reuse them.
-    Otherwise create a temporary user and (optionally) delete it (--cleanup-user).
-    """
-    env_user = os.getenv("DEMOQA_USER")
-    env_pass = os.getenv("DEMOQA_PASS")
-
-    created_by_fixture = False
-    if env_user and env_pass:
-        username, password = env_user, env_pass
-    else:
-        username = f"auto_user_{uuid.uuid4().hex[:6]}"
-        password = _random_password()
-        api.create_user(username, password)
-        created_by_fixture = True
-
-    login_data = api.login(username, password)
-    user = {
-        "username": login_data.get("username") or username,
-        "userId": login_data.get("userId"),
-        "token": login_data.get("token"),
-        "expires": login_data.get("expires"),
-        "password": password,
-    }
-    yield user
-
-    if created_by_fixture and request.config.getoption("--cleanup-user"):
-        with contextlib.suppress(Exception):
-            api.delete_user(user["userId"], user["token"])
-
-
-@pytest.fixture(scope="function")
-def ui_login_via_api(driver, base_url, api_auth_user):
-    """
-    Log in UI by injecting localStorage values from API login.
-    Usage: add fixture to test or make it autouse in a module/class.
-    """
-    user = api_auth_user
-    driver.get(base_url)  # same-origin for localStorage
-    script = """
-        window.localStorage.setItem('userID', arguments[0]);
-        window.localStorage.setItem('userName', arguments[1]);
-        window.localStorage.setItem('token', arguments[2]);
-        window.localStorage.setItem('expires', arguments[3]);
-    """
-    driver.execute_script(script, user["userId"], user["username"], user["token"], user["expires"])
-    yield user
-    with contextlib.suppress(Exception):
-        driver.execute_script("window.localStorage.clear();")
-
 
 # ================================ HAR recorder ===============================
 def _is_chromium(drv) -> bool:

@@ -6,7 +6,7 @@ from typing import Any, Dict, Mapping, Optional
 import allure
 from requests import PreparedRequest, Response, Session
 
-from core.logging import Logger
+from core.util.logging import Logger
 
 
 class AllureApiLogger:

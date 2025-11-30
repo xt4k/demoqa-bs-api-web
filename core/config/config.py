@@ -7,7 +7,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Optional
 
-from core.logging import Logger
+import allure
+
+from core.reporting.html_report_decorator import html_step
+from core.util.logging import Logger
 
 
 @dataclass(frozen=True)
@@ -34,6 +37,8 @@ class ConfigLoader:
     def __init__(self) -> None:
         self.config_dir = self.CONFIG_DIR
 
+    @html_step("Load configuration from files")
+    @allure.step("Load configuration from files")
     def load(self) -> RunCfg:
         self.log.info(f"Loading config from: {self.config_dir.resolve()}")
         common = self._read_flat(self.config_dir / "common.properties", required=True)
@@ -58,10 +63,9 @@ class ConfigLoader:
             ui_user_password=self._req(ui_user_props, "password"),
             ui_user_id=self._req(ui_user_props, "userid"),
         )
-        self.log.info(
-            f"Env '{cfg.env_name}': api={cfg.api_uri} ui={cfg.web_url}"
-            f"db={cfg.db_url or '-'}; api_user={cfg.api_user_name}; ui_user={cfg.ui_user_name}"
-        )
+
+        self.log.info(f"Env '{cfg.env_name}': api={cfg.api_uri} ui={cfg.web_url}")
+        self.log.info(f"api_user={cfg.api_user_name}; ui_user={cfg.ui_user_name}")
         return cfg
 
     # -------- internal --------
@@ -75,6 +79,8 @@ class ConfigLoader:
         return self._read_flat(path, required=True)
 
     @staticmethod
+    @html_step("Load properties file")
+    @allure.step("Load properties file")
     def _read_flat(path: Path, *, required: bool = False) -> Dict[str, str]:
         if not path.exists():
             if required:
@@ -86,6 +92,8 @@ class ConfigLoader:
         return {k: v for k, v in cp["root"].items()}
 
     @staticmethod
+    @html_step("check properties presence")
+    @allure.step("check properties presence")
     def _req(mapping: Dict[str, str], key: str) -> str:
         v = mapping.get(key)
         if v is None or str(v).strip() == "":
