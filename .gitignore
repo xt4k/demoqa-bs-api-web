@@ -2,6 +2,7 @@ allure-results/
 logs/
 run_log.log
 .pytest_cache/
+.venv/
 __pycache__/
 *.pyc
 reports/
