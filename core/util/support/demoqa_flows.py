@@ -1,19 +1,21 @@
-# tests/support/demoqa_flows.py
+# tests/support/demoqa_flows_old.py
 from __future__ import annotations
 
 import contextlib
 import os
 from typing import Any, Dict, Tuple
 
-import allure
 
 from core.api.services.account_service import AccountService
 from core.api.services.book_store_service import BookStoreService
 from core.providers.data_generator import generate_user_request_dict
+import allure
+from core.util.html_report.html_report_decorator import html_step
 
 UserDict = Dict[str, Any]
 
 
+@html_step("DemoQA: Create user via /Account/v1/User")
 @allure.step("DemoQA: Create user via /Account/v1/User")
 def create_demo_user(account_service: AccountService) -> UserDict:
     """Create a new DemoQA user with random valid credentials."""
@@ -28,6 +30,7 @@ def create_demo_user(account_service: AccountService) -> UserDict:
     }
 
 
+@html_step("DemoQA: Login user via /Account/v1/Login")
 @allure.step("DemoQA: Login user via /Account/v1/Login")
 def login_demo_user(account_service: AccountService, user: UserDict) -> UserDict:
     """Login DemoQA user and attach token/expires."""
@@ -49,6 +52,7 @@ def login_demo_user(account_service: AccountService, user: UserDict) -> UserDict
     return user
 
 
+@html_step("DemoQA: Create and login temporary user")
 @allure.step("DemoQA: Create and login temporary user")
 def create_and_login_temp_user(account_service: AccountService) -> UserDict:
     """Create a random user and login it in one step."""
@@ -56,12 +60,11 @@ def create_and_login_temp_user(account_service: AccountService) -> UserDict:
     return login_demo_user(account_service, user)
 
 
+@html_step("DemoQA: Ensure test user from env or create temporary")
 @allure.step("DemoQA: Ensure test user from env or create temporary")
 def ensure_test_user(account_service: AccountService) -> Tuple[UserDict, bool]:
     """
-    Try to login DEMOQA_USER/DEMOQA_PASS from env,
-    otherwise create a temporary user.
-
+    Try to login DEMOQA_USER/DEMOQA_PASS from env, otherwise create a temporary user.
     Returns (user_dict, needs_cleanup).
     """
     env_user = os.getenv("DEMOQA_USER")
@@ -76,13 +79,14 @@ def ensure_test_user(account_service: AccountService) -> Tuple[UserDict, bool]:
     return user, True
 
 
+@html_step("DemoQA: Cleanup user (books + account)")
 @allure.step("DemoQA: Cleanup user (books + account)")
 def cleanup_demo_user(
-    account_service: AccountService,
-    book_store_service: BookStoreService,
-    user: UserDict,
+        account_service: AccountService,
+        book_store_service: BookStoreService,
+        user: UserDict,
 ) -> None:
-    """Best-effort cleanup: delete all books and then delete the user."""
+    """Delete all books and then delete the user."""
     user_id = user.get("userId")
     token = user.get("token")
 

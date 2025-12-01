@@ -9,7 +9,7 @@ from typing import Dict, Optional
 
 import allure
 
-from core.reporting.html_report_decorator import html_step
+from core.util.html_report.html_report_decorator import html_step
 from core.util.logging import Logger
 
 

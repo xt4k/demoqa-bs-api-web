@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from core.util.logging import Logger
 from .locators.base_page_locators import BasePageLocators as Loc
-from ...reporting.html_report_decorator import html_step
+from core.util.html_report.html_report_decorator import html_step
 
 DEFAULT_TIMEOUT = 10
 if TYPE_CHECKING:
@@ -26,6 +26,7 @@ class BasePage:
         self.base_url = (getattr(driver, "base_url")).rstrip("/")
         self.log.info(f"[PAGE] Initializing {self.__class__.__name__} page.")
 
+    @html_step("Open page")
     @allure.step("Open page `{path}`")
     def open_page(self, path: str = ""):
         self.log.info(f"Open_page:`{path}`")
@@ -38,17 +39,19 @@ class BasePage:
         self.__visible(locator).click()
         return BasePage(self.driver, timeout=DEFAULT_TIMEOUT)
 
+    @html_step("Set text to input element")
     @allure.step("Set text {text} to input element")
     def _type(self, locator, text: str) -> None:
         el = self.__visible(locator)
         el.clear()
         el.send_keys(text)
 
+    @html_step("Return web element text")
     @allure.step("Return web element text")
     def get_text(self, locator) -> str:
         return self.__visible(locator).text
 
-    @html_step("Return web element attribute {attribute}")
+    @html_step("Return web element attribute")
     @allure.step("Return web element attribute {attribute}")
     def _get_element_attribute(self, locator, attribute: str) -> str:
         return self.__visible(locator).get_attribute(attribute)
@@ -63,6 +66,7 @@ class BasePage:
     def log_out_btn_text(self) -> str:
         return self.wait.until(EC.visibility_of_element_located(Loc.LOG_OUT_BTN)).text
 
+    @html_step("Return profile `User Name`")
     @allure.step("Return profile `User Name`")
     def logged_user_name(self) -> str:
         return self.wait.until(EC.visibility_of_element_located(Loc.LOGGED_USER_NAME)).text

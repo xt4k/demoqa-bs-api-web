@@ -7,7 +7,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from core.api.services.account_service import AccountService
 from core.config.config import ConfigLoader
-from core.reporting.html_report_decorator import html_step
+from core.util.html_report.html_report_decorator import html_step
 from core.util.logging import Logger
 from core.providers.data_generator import iso_date_plus_days
 from core.ui.page_objects.base_page import BasePage

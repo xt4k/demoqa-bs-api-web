@@ -3,7 +3,6 @@ import contextlib
 import json
 import logging
 import os
-import random
 import sys
 import time
 from pathlib import Path
@@ -187,6 +186,7 @@ def ui_creds() -> tuple[str, str, str]:
     """
     return ui_cfg.api_user_name, ui_cfg.api_user_password, ui_cfg.ui_user_id
 
+
 # ================================ HAR recorder ===============================
 def _is_chromium(drv) -> bool:
     name = (drv.capabilities or {}).get("browserName", "").lower()
@@ -344,7 +344,7 @@ def _attach_json(name: str, obj):
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
 def pytest_runtest_makereport(item, call):
-    # run all other hooks to obtain report
+    # run all other allure_hooks to obtain report
     outcome = yield
     rep = outcome.get_result()
 

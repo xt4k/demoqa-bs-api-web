@@ -6,7 +6,7 @@ import string
 
 import allure
 
-from core.reporting.html_report_decorator import html_step
+from core.util.html_report.html_report_decorator import html_step
 
 
 def now_suffix() -> str:

@@ -1,12 +1,13 @@
 import allure
 
 from core.ui.page_objects.base_page import BasePage
+from core.util.html_report.html_report_decorator import html_step
 from .locators.login_page_locators import LoginPageLocators as Loc
-from ...reporting.html_report_decorator import html_step
 
 
 class LoginPage(BasePage):
 
+    @html_step("Login by username")
     @allure.step("Login by username {username}")
     def login(self, username: str, password: str) -> BasePage:
         self._type(Loc.USERNAME, username)
@@ -21,7 +22,7 @@ class LoginPage(BasePage):
     def user_name_default(self):
         return self._get_element_attribute(Loc.USERNAME, "placeholder")
 
-    @allure.step("Return default password field text")
     @html_step("Return default password field text")
+    @allure.step("Return default password field text")
     def password_default(self):
         return self._get_element_attribute(Loc.PASSWORD, "placeholder")

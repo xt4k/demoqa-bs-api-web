@@ -8,7 +8,7 @@ import allure
 from requests import Response, Session
 
 from core.api.clients.account_client import AccountClient
-from core.reporting.html_report_decorator import html_step
+from core.util.html_report.html_report_decorator import html_step
 
 StatusSpec = Union[int, Sequence[int], set]
 

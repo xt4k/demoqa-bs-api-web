@@ -10,13 +10,14 @@ import pytest
 from core.api.services.account_service import AccountService
 from core.api.services.book_store_service import BookStoreService
 from core.config.config import RunCfg
-from core.http.hooks.allure import AllureApiLogger
+from core.util.allure_hooks.allure import AllureApiLogger
 from core.http.http_client import HttpClient
 from core.providers.data_generator import generate_user_request_dict
-from core.reporting.html_report_decorator import html_step
-from core.reporting.html_report_helper import process_report, customize_header, customize_row
+from core.util.html_report.html_report_decorator import html_step
+
+from core.util.html_report.html_report_helper import process_report, customize_header, customize_row
 from core.util.logging import Logger
-from tests.support.demoqa_flows import ensure_test_user, cleanup_demo_user
+from core.util.support.demoqa_flows import ensure_test_user, cleanup_demo_user
 
 log = Logger.get_logger("conftest", prefix="project_root")
 

@@ -4,7 +4,8 @@ from assertpy import assert_that, soft_assertions
 
 from core.api.services.account_service import AccountService
 from core.providers.data_generator import generate_user_request_dict
-from core.reporting.html_report_decorator import html_title, html_sub_suite, html_feature
+from core.util.html_report.html_report_decorator import html_sub_suite, html_feature, html_title
+
 from tests.ui.base_test import BaseTest
 
 

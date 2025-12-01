@@ -9,7 +9,7 @@ from requests import Session, Response
 
 from core.api.clients.book_store_client import BookStoreClient
 from core.api.models.user_book import UserBook
-from core.reporting.html_report_decorator import html_step
+from core.util.html_report.html_report_decorator import html_step
 
 StatusSpec = Union[int, Sequence[int], set]
 
