@@ -5,8 +5,10 @@ from typing import Type, TypeVar
 import allure
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from core.api.clients.account_client import AccountClient
 from core.api.services.account_service import AccountService
 from core.config.config import ConfigLoader
+from core.http.http_client import HttpClient
 from core.util.html_report.html_report_decorator import html_step
 from core.util.logging import Logger
 from core.providers.data_generator import iso_date_plus_days
@@ -22,7 +24,7 @@ class BaseTest:
 
     @html_step("Set DemoQA auth cookies into the current browser session")
     @allure.step("Set DemoQA auth cookies into the current browser session")
-    def _set_auth_cookies(self, driver: WebDriver, cfg, token: str) -> None:
+    def _set_auth_cookies(self, driver: WebDriver, cfg, token: str | None = None) -> None:
         """Set DemoQA auth cookies into the current browser session."""
         next_day = iso_date_plus_days(1)
         self.log.info(f"___tomorrow___{next_day}")
@@ -44,7 +46,7 @@ class BaseTest:
     def open_page_with_auth_cookies(self, driver: WebDriver, page_cls: Type[TPage], path: str) -> TPage:
         cfg = ConfigLoader().load()
         payload = {"userName": cfg.ui_user_name, "password": cfg.ui_user_password}
-        token = AccountService().generate_token(payload, expect=200)
+        token = AccountService(client=AccountClient()).generate_token(payload, expect=200)
 
         ui_url = cfg.web_url
         driver.get(ui_url + "/images/Toolsqa.jpg")

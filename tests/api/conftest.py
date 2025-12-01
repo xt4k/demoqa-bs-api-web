@@ -18,13 +18,15 @@ log = Logger.get_logger("conftest", prefix="api_test_folder")
 @allure.step("Authenticate default user via AccountService")
 def account_service_auth(account_service: AccountService) -> AccountService:
     """Return AccountService authenticated with default user from config."""
-    return account_service.authenticate_default()
+    account_service._client.authenticate_default()
+    return account_service
 
 
 @pytest.fixture(scope="function")
 @allure.step("Authenticate default user via AccountService")
 def book_store_service_auth(book_store_service: BookStoreService) -> BookStoreService:
-    return book_store_service.authenticate_default()
+    book_store_service._client.authenticate_default()
+    return book_store_service
 
 
 @pytest.fixture()
@@ -34,7 +36,7 @@ def user_id(account_service: AccountService) -> Generator[Any, Any, None]:
     """
     # Arrange: create user with random valid credentials
     create_user_dict = generate_user_request_dict()
-    response = account_service.create_user_request(create_user_dict)
+    response = account_service._client.create_user_request(create_user_dict)
     body = response.json()
 
     uid = body["userID"]

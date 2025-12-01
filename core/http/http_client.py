@@ -36,7 +36,7 @@ def _as_set(spec: Optional[StatusSpec]) -> Set[int]:
 
 
 class HttpClient:
-    _CFG_SINGLETON: Optional[RunCfg] = None
+    _CFG_SINGLETON: RunCfg | None = None
     _BOOT_LOCK = threading.Lock()
 
     _cfg: Optional[RunCfg] = None
@@ -46,10 +46,11 @@ class HttpClient:
     def __init__(
             self,
             *,
-            api_base: Optional[str] = None,
+            cfg: RunCfg | None = None,
+            api_base: str | None = None,
             timeout: float = 10.0,
-            is_auth: bool = False,  # <— увімкнути авто-логін (опціонально)
-            session: Optional[Session] = None,
+            is_auth: bool = False,
+            session: Session | None = None,
             default_headers: Optional[Mapping[str, str]] = None,
             retries: int = 3,
             backoff_factor: float = 0.3,
@@ -57,10 +58,13 @@ class HttpClient:
             logger: Optional[logging.Logger] = None,
     ) -> None:
         self.log = logger or Logger.get_logger("HttpClient", prefix="HTTP")
-        cfg = self._bootstrap_cfg()
-        self._cfg = cfg
 
-        self.base = (api_base or cfg.api_uri).rstrip("/")
+        if cfg is not None:
+            self._cfg = cfg
+        else:
+            self._cfg = self._bootstrap_cfg()
+
+        self.base = (api_base or self.cfg.api_uri).rstrip("/")
         self.timeout = float(timeout)
         self.s: Session = session or requests.Session()
         self._owns_session = session is None
@@ -203,7 +207,8 @@ class HttpClient:
         return self.request("PUT", endpoint, json=payload, headers=headers, expected_status_code=expected_status_code)
 
     @allure.step("send DELETE request to {endpoint}")
-    def delete(self, endpoint: str, params=None, token: str = None, expected_status_code: Union[int, Sequence[int], Set[int], None] = 201) -> Response:
+    def delete(self, endpoint: str, params=None, token: str | None = None,
+               expected_status_code: Union[int, Sequence[int], Set[int], None] = 201) -> Response:
         if token:
             headers = ({"Authorization": f"Bearer {token}"})
         else:

@@ -7,19 +7,33 @@ from typing import Generator, Any, Dict
 import allure
 import pytest
 
+from core.api.clients.account_client import AccountClient
+from core.api.clients.book_store_client import BookStoreClient
 from core.api.services.account_service import AccountService
 from core.api.services.book_store_service import BookStoreService
-from core.config.config import RunCfg
-from core.util.allure_hooks.allure import AllureApiLogger
+from core.config.config import RunCfg, ConfigLoader
 from core.http.http_client import HttpClient
 from core.providers.data_generator import generate_user_request_dict
+from core.util.allure_hooks.allure import AllureApiLogger
 from core.util.html_report.html_report_decorator import html_step
-
 from core.util.html_report.html_report_helper import process_report, customize_header, customize_row
 from core.util.logging import Logger
 from core.util.support.demoqa_flows import ensure_test_user, cleanup_demo_user
 
 log = Logger.get_logger("conftest", prefix="project_root")
+
+
+@pytest.fixture(scope="session")
+def run_cfg() -> RunCfg:
+    return ConfigLoader().load()
+
+
+@pytest.fixture(scope="session")
+def http_client(run_cfg: RunCfg) -> HttpClient | None:
+    """Single HttpClient for all tests."""
+    client = HttpClient(cfg=run_cfg, is_auth=False)
+    yield client
+    client.close()
 
 
 @pytest.fixture(scope="session")
@@ -57,7 +71,8 @@ def http_root() -> Generator[HttpClient, None, None]:
 def account_service(http_root: HttpClient) -> AccountService:
     """Thin wrapper over HttpClient, uses shared Session."""
     log.info("AccountService uses shared HttpClient session")
-    return AccountService(is_auth=False, session=http_root.s)
+    return AccountService(client=AccountClient(session=http_root.s))
+
 
 
 @pytest.fixture(scope="session")
@@ -66,7 +81,7 @@ def account_service(http_root: HttpClient) -> AccountService:
 def book_store_service(http_root: HttpClient) -> BookStoreService:
     """Thin wrapper over HttpClient, uses shared Session."""
     log.info("BookStoreService uses shared HttpClient session")
-    return BookStoreService(is_auth=False, session=http_root.s)
+    return BookStoreService(client=BookStoreClient(session=http_root.s))
 
 
 @pytest.fixture(scope="session")
@@ -96,7 +111,7 @@ def user_id(account_service: AccountService) -> Generator[Any, Any, None]:
     """
     # Arrange: create user with random valid credentials
     create_user_dict = generate_user_request_dict()
-    response = account_service.create_user_request(create_user_dict)
+    response = account_service._client.create_user_request(create_user_dict)
     body = response.json()
 
     uid = body["userID"]
@@ -164,6 +179,7 @@ def pytest_html_results_table_header(cells):
 def pytest_html_results_table_row(report, cells):
     """Customize the HTML report rows."""
     customize_row(report, cells)
+
 
 @pytest.fixture(autouse=True)
 def _html_steps_request_context(request: pytest.FixtureRequest):

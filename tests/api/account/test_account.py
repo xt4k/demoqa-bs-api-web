@@ -30,7 +30,7 @@ class TestAccountEndpoint(BaseTest):
     def test_get_user_token(self, account_service_auth: AccountService):
         create_user_dict = generate_user_request_dict()
         account_service_auth.create_user(create_user_dict)
-        r = account_service_auth.generate_token_request(body=create_user_dict)
+        r = account_service_auth._client.generate_token_request(body=create_user_dict)
         with (soft_assertions()):
             assert_that(r.status_code).is_equal_to(200)
             assert_that(r.json().get("status")).is_equal_to("Success")
@@ -41,7 +41,7 @@ class TestAccountEndpoint(BaseTest):
     @allure.title("Verify POST `/Account/v1/User` endpoint (`create user`) functionality")
     @allure.testcase("TMS_LINK-A-1-2")
     def test_create_user(self, account_service_auth: AccountService):
-        r = account_service_auth.create_user_request(generate_user_request_dict())
+        r = account_service_auth._client.create_user_request(generate_user_request_dict())
         self.log.info(f"\ncreated user response {r.json()}\n")
         with soft_assertions():
             assert_that(r.status_code).is_equal_to(201)
@@ -69,7 +69,7 @@ class TestAccountEndpoint(BaseTest):
         create_user_dict = generate_user_request_dict()
         account_service_auth.create_user(create_user_dict)
         account_service_auth.generate_token(create_user_dict)
-        r = account_service_auth.is_authorized_request(create_user_dict)
+        r = account_service_auth._client.is_authorized_request(create_user_dict)
         with (soft_assertions()):
             assert_that(r.status_code).is_equal_to(200)
             assert_that(r.text).described_as(f"Expected 'true', got '{r.text}'").is_in("true")
@@ -87,7 +87,7 @@ class TestAccountEndpoint(BaseTest):
         response_delete = account_service_auth.delete_user(user_id, token=token)
         self.log.info(f"\ndelete_user_response {response_delete}\n")
         assert_that(response_delete.status_code).is_equal_to(204)
-        response_get_deleted = account_service_auth.get_user_response(user_id, token=token, expect=401)
+        response_get_deleted = account_service_auth._client.get_user_response(user_id, token=token, expect=401)
         self.log.info(f"\nget_deleted_user {response_get_deleted}\n")
         with (soft_assertions()):
             assert_that(response_get_deleted.status_code).is_equal_to(401)

@@ -33,6 +33,6 @@ class BookStoreClient(HttpClient):
 
     @html_step("Account: Delete user")
     @allure.step("Account: Delete user {user_id}")
-    def delete_books_request(self, user_id: str, token: str = None, expect: StatusSpec=204) -> Response:
+    def delete_books_request(self, user_id: str, token: str | None = None, expect: StatusSpec=204) -> Response:
         param = {"UserId": user_id}
         return self.delete(f"{self.BS_PATH_BOOKS}", params=param, token= token, expected_status_code=expect)
