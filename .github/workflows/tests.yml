@@ -76,7 +76,7 @@ jobs:
             -n 4 \
             --dist=loadgroup \
             --alluredir=allure-results \
-            --html=reports/pytest-report-ui.html \
+            --html=reports/report-ui.html \
             --self-contained-html
         continue-on-error: true
 
@@ -86,7 +86,7 @@ jobs:
           name: ui-reports
           path: |
             allure-results
-            reports/pytest-report-ui.html
+            reports/report-ui.html
 
   publish-reports:
     name: Publish Allure & HTML reports to GitHub Pages
@@ -124,8 +124,8 @@ jobs:
 
           # Copy pytest HTML reports
           mkdir -p site/api site/ui
-          cp api-reports/reports/pytest-report-api.html site/api/pytest-report-api.html
-          cp ui-reports/reports/pytest-report-ui.html site/ui/pytest-report-ui.html
+          cp api-reports/reports/report-api.html site/api/report-api.html
+          cp ui-reports/reports/report-ui.html site/ui/report-ui.html
 
           # Simple index page with links
           cat > site/index.html << 'EOF'
@@ -139,9 +139,9 @@ jobs:
             <h1>DemoQA test reports</h1>
             <ul>
               <li><a href="api/allure/index.html">API – Allure report</a></li>
-              <li><a href="api/pytest-report-api.html">API – pytest HTML report</a></li>
+              <li><a href="api/report-api.html">API – pytest HTML report</a></li>
               <li><a href="ui/allure/index.html">UI – Allure report</a></li>
-              <li><a href="ui/pytest-report-ui.html">UI – pytest HTML report</a></li>
+              <li><a href="ui/report-ui.html">UI – pytest HTML report</a></li>
             </ul>
           </body>
           </html>
