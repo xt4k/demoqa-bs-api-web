@@ -121,7 +121,7 @@ class HttpClient:
         self.log.info("Authorization header cleared")
 
     @allure.step("authenticate for default user")
-    def authenticate_default(self) -> HttpClient:
+    def authenticate_default(self) -> "HttpClient":
         self.log.info(f"Acquiring token for default user '{self.cfg.api_user_name}'")
 
         user_request = generate_user_request(userName=self.cfg.api_user_name, password=self.cfg.api_user_password)
@@ -213,7 +213,7 @@ class HttpClient:
 
     @allure.step("send DELETE request to {endpoint}")
     def delete(self, endpoint: str, params=None, token: str | None = None,
-               expected_status_code: Union[int, Sequence[int], Set[int], None] = 201) -> Response:
+               expected_status_code: Union[int, Sequence[int], Set[int], None] = 204) -> Response:
         if token:
             headers = ({"Authorization": f"Bearer {token}"})
         else:

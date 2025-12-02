@@ -24,15 +24,9 @@ class BookStoreClient(HttpClient):
     @allure.step("Book_Store: Add book to shelf")
     def add_user_book_request(self, body, expect: StatusSpec = 201) -> Response:
         return self.post(self.BS_PATH_BOOKS, payload=body, expected_status_code=expect)
-    #
-    # @html_step("BookStore: List books request")
-    # @allure.step("BookStore: List books request")
-    # def get_user_response(self, user_id: str, *, token: Optional[str], expect: StatusSpec) -> Response:
-    #     headers = {"Authorization": f"Bearer {token}"}
-    #     return self.get(f"{self.BS_PATH_BOOKS}/{user_id}", headers=headers, expected_status_code=expect)
 
-    @html_step("Account: Delete user")
-    @allure.step("Account: Delete user {user_id}")
+    @html_step("Book_Store: Delete user books")
+    @allure.step("Book_Store: Delete user {user_id} books")
     def delete_books_request(self, user_id: str, token: str | None = None, expect: StatusSpec=204) -> Response:
         param = {"UserId": user_id}
         return self.delete(f"{self.BS_PATH_BOOKS}", params=param, token= token, expected_status_code=expect)

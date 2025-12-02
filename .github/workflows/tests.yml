@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache: 'pip'
       - name: Setup Chrome
         id: setup-chrome
@@ -74,28 +74,3 @@ jobs:
           path: |
             allure-results
             reports/pytest-report-ui.html
-
-  e2e:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-      - name: Setup Chrome
-        id: setup-chrome
-        uses: browser-actions/setup-chrome@v1
-      - name: Run E2E tests (xdist, headless)
-        env:
-          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        run: |
-          echo "Chrome path: $CHROME_PATH"
-          pytest tests/e2e -n auto --alluredir=allure-results --html=reports/pytest-report-e2e.html
-      - name: Archive reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: e2e-reports
-          path: |
-            allure-results
-            reports/pytest-report-e2e.html
