@@ -1,14 +1,29 @@
 import allure
+import pytest
 from assertpy import soft_assertions, assert_that
 
 
 from core.ui.page_objects.login_page import LoginPage
 from core.ui.page_objects.profile_page import ProfilePage
-from core.util.html_report.html_report_decorator import html_title
+from core.util.html_report.decorators import html_title, html_sub_suite, html_feature
 from tests.ui.base_test import BaseTest
 
-
-@allure.epic("Login page")
+@html_sub_suite("Endpoint 'BookStore' functional testing")
+@html_feature("Endpoint 'BookStore' happy-path validation")
+@allure.epic("Python_ecosystem_automation_testing")
+@allure.suite("DemoQA_UI_testing")
+@allure.sub_suite("DemoQA site Login page UI testing")
+@allure.feature("Login page UI test set")
+@allure.story("Verify Login functionality by UI testing")
+@allure.label("owner_name", "Other AQA")
+@allure.tag("Functional", "Login", "UI")
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.link("https://some.example.com/", name="Website")
+@allure.issue("SOME_JIRA_LINK-6-1-2-5")
+@allure.severity(allure.severity_level.CRITICAL)
+@pytest.mark.ui
+@pytest.mark.slow
+@pytest.mark.login
 class TestLoginPage(BaseTest):
 
     @allure.title("Login → Profile (positive)")

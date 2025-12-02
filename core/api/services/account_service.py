@@ -8,7 +8,8 @@ import allure
 from requests import Response
 
 from core.api.clients.account_client import AccountClient
-from core.util.html_report.html_report_decorator import html_step
+from core.api.models.user import UserRequest
+from core.util.html_report.decorators import html_step
 
 StatusSpec = Union[int, Sequence[int], set]
 
@@ -21,12 +22,12 @@ class AccountService:
 
     @html_step("Account: Create user")
     @allure.step("Account: Create user")
-    def create_user(self, body: Dict[str, Any], expect: StatusSpec = 201) -> Dict[str, Any]:
+    def create_user(self, body: Dict[str, Any] | UserRequest, expect: StatusSpec = 201) -> Dict[str, Any]:
         return self._client.create_user_request(body, expect=expect).json()
 
     @html_step("Account: Generate token")
     @allure.step("Account: Generate token for {body}")
-    def generate_token(self, body: Dict[str, Any], expect: StatusSpec = 200) -> str:
+    def generate_token(self, body: Dict[str, Any] | UserRequest, expect: StatusSpec = 200) -> str:
         r = self._client.generate_token_request(body, expect=expect)
         token = (r.json() or {}).get("token", "")
         if not token:

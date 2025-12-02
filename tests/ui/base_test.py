@@ -9,7 +9,7 @@ from core.api.clients.account_client import AccountClient
 from core.api.services.account_service import AccountService
 from core.config.config import ConfigLoader
 from core.http.http_client import HttpClient
-from core.util.html_report.html_report_decorator import html_step
+from core.util.html_report.decorators import html_step
 from core.util.logging import Logger
 from core.providers.data_generator import iso_date_plus_days
 from core.ui.page_objects.base_page import BasePage

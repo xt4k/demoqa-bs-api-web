@@ -6,7 +6,8 @@ import string
 
 import allure
 
-from core.util.html_report.html_report_decorator import html_step
+from core.api.models.user import UserRequest
+from core.util.html_report.decorators import html_step
 
 
 def now_suffix() -> str:
@@ -38,9 +39,20 @@ def generate_user_request_dict() -> dict:
     return {"userName": random_username(), "password": generate_password()}
 
 
+@html_step("Generate a random user request object")
+@allure.step("Generate a random user request object")
+def generate_user_request(userName: str | None = None,
+                          password: str | None = None) -> UserRequest:
+    return UserRequest(
+        userName=random_username() if userName is None else userName,
+        password=generate_password() if password is None else password,
+    )
+
+
 @allure.step("Get a defined delete user books dict")
 def get_delete_user_book_dict(user_id: str) -> dict:
     return {"userId": user_id, "message": f"Delete message for user with id:`{user_id}`"}
+
 
 @html_step("Get a iso-date string with defined day shift")
 @allure.step("Get a iso-date string with defined day shift")

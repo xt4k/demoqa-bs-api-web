@@ -13,6 +13,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from core.config.config import ConfigLoader, RunCfg
+from core.util.html_report.decorators import html_step
 from core.util.logging import Logger
 
 StatusSpec = Union[int, Sequence[int], Set[int]]
@@ -188,11 +189,13 @@ class HttpClient:
         return resp
 
     # ---------- convenience verbs ----------
+    @html_step("send POST request to endpoint")
     @allure.step("send POST request to {endpoint}")
-    def post(self, endpoint: str, payload: Optional[Any] = None,
+    def post(self, endpoint: str, payload: Optional[Any] = None, data_obj: Optional[Any] = None,
              headers: Optional[Mapping[str, str]] = None,
              expected_status_code: Union[int, Sequence[int], Set[int], None] = 200) -> Response:
-        return self.request("POST", endpoint, json=payload, headers=headers, expected_status_code=expected_status_code)
+        return self.request("POST", endpoint, json=payload, data=data_obj, headers=headers,
+                            expected_status_code=expected_status_code)
 
     @allure.step("send GET request to {endpoint}")
     def get(self, endpoint: str, payload: Optional[Mapping[str, Any]] = None,

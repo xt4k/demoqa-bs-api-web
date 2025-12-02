@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache: 'pip'
       - run: pip install -r requirements.txt
       - name: Run mypy
@@ -30,11 +30,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache: 'pip'
       - run: pip install -r requirements.txt
       - name: Run API tests (xdist)
-        run: pytest tests/api_client -n auto --alluredir=allure-results --html=reports/pytest-report-api_client.html
+        run: |
+          pytest tests/api -n auto \
+            --maxfail=1 \
+            --dist=loadscope \
+            --html=reports/pytest-report-api.html \
+            --self-contained-html
       - name: Archive reports
         uses: actions/upload-artifact@v4
         with:

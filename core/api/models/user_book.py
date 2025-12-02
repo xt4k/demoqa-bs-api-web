@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+from typing import Dict, Any
 from typing import Iterable
 
 
@@ -29,3 +30,6 @@ class UserBook:
             "userId": self.userId,
             "collectionOfIsbns": [{"isbn": b.isbn} for b in self.books],
         }
+
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)

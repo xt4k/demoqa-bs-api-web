@@ -1,7 +1,7 @@
 import allure
 
 from core.ui.page_objects.base_page import BasePage
-from core.util.html_report.html_report_decorator import html_step
+from core.util.html_report.decorators import html_step
 from .locators.login_page_locators import LoginPageLocators as Loc
 
 

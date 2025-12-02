@@ -5,12 +5,12 @@ import contextlib
 import os
 from typing import Any, Dict, Tuple
 
+import allure
 
 from core.api.services.account_service import AccountService
 from core.api.services.book_store_service import BookStoreService
-from core.providers.data_generator import generate_user_request_dict
-import allure
-from core.util.html_report.html_report_decorator import html_step
+from core.providers.data_generator import generate_user_request
+from core.util.html_report.decorators import html_step
 
 UserDict = Dict[str, Any]
 
@@ -19,13 +19,13 @@ UserDict = Dict[str, Any]
 @allure.step("DemoQA: Create user via /Account/v1/User")
 def create_demo_user(account_service: AccountService) -> UserDict:
     """Create a new DemoQA user with random valid credentials."""
-    body = generate_user_request_dict()
+    body = generate_user_request()
     response_json = account_service.create_user(body)
     user_id = response_json["userID"]
 
     return {
-        "username": body["userName"],
-        "password": body["password"],
+        "username": body.userName,
+        "password": body.password,
         "userId": user_id,
     }
 

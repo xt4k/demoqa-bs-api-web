@@ -7,8 +7,9 @@ from typing import Any, Dict, Optional, Sequence, Union
 import allure
 from requests import Response, Session
 
+from core.api.models.user import UserRequest
 from core.http.http_client import HttpClient
-from core.util.html_report.html_report_decorator import html_step
+from core.util.html_report.decorators import html_step
 
 StatusSpec = Union[int, Sequence[int], set]
 
@@ -23,13 +24,15 @@ class AccountClient(HttpClient):
 
     @html_step("Account: Create user")
     @allure.step("Account: Create user")
-    def create_user_request(self, body: Dict[str, Any], expect: StatusSpec=201) -> Response:
-        return self.post(self.ACC_USR_PATH, payload=body, expected_status_code=expect)
+    def create_user_request(self, body: Dict[str, Any]|UserRequest, expect: StatusSpec = 201) -> Response:
+        payload = body.to_dict() if isinstance(body, UserRequest) else body
+        return self.post(self.ACC_USR_PATH, payload=payload, expected_status_code=expect)
 
     @html_step("Account: Generate token for body")
     @allure.step("Account: Generate token for {body}")
-    def generate_token_request(self, body: Dict[str, Any],expect: StatusSpec = 200) -> Response:
-        return self.post(f"{self.ACC_PATH}/GenerateToken", payload=body, expected_status_code=expect)
+    def generate_token_request(self, body: Dict[str, Any]|UserRequest, expect: StatusSpec = 200) -> Response:
+        payload = body.to_dict() if isinstance(body, UserRequest) else body
+        return self.post(f"{self.ACC_PATH}/GenerateToken", payload=payload, expected_status_code=expect)
 
     @html_step("Account: Get user user_id")
     @allure.step("Account: Get user {user_id}")
@@ -44,5 +47,6 @@ class AccountClient(HttpClient):
 
     @html_step("Account: Check authorization for body")
     @allure.step("Account: Check authorization for {body}")
-    def is_authorized_request(self, body: Dict[str, Any], expect: StatusSpec = 200) -> Response:
-        return self.post(f"{self.ACC_PATH}/Authorized", payload=body, expected_status_code=expect)
+    def is_authorized_request(self, body: Dict[str, Any]|UserRequest, expect: StatusSpec = 200) -> Response:
+        payload = body.to_dict() if isinstance(body, UserRequest) else body
+        return self.post(f"{self.ACC_PATH}/Authorized", payload=payload, expected_status_code=expect)

@@ -5,8 +5,8 @@ from assertpy import assert_that, soft_assertions
 from core.api.services.account_service import AccountService
 from core.api.services.book_store_service import BookStoreService
 from core.config.config import RunCfg
-from core.providers.data_generator import generate_user_request_dict
-from core.util.html_report.html_report_decorator import html_sub_suite, html_feature, html_title
+from core.providers.data_generator import generate_user_request_dict, generate_user_request
+from core.util.html_report.decorators import html_sub_suite, html_feature, html_title
 from tests.ui.base_test import BaseTest
 
 
@@ -25,6 +25,7 @@ from tests.ui.base_test import BaseTest
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.book
 @pytest.mark.api
+@pytest.mark.happy_path
 class TestBookStoreEndpoint(BaseTest):
     @html_title("GET /BookStore/v1/Books — list catalog")
     @allure.title("GET /BookStore/v1/Books — list catalog")
@@ -40,12 +41,12 @@ class TestBookStoreEndpoint(BaseTest):
     @allure.title("DELETE /BookStore/v1/Book — delete a single book from user")
     @allure.testcase("TMS_LINK-BS-1-2")
     def test_delete_user_books(self, book_store_service: BookStoreService, account_service_auth: AccountService):
-        create_user_dict = generate_user_request_dict()
-        self.log.info(f"\ncreate_user_dict {create_user_dict}\n")
-        create_user_response = account_service_auth.create_user(create_user_dict)
+        user_request = generate_user_request()
+        self.log.info(f"user_request {user_request}\n")
+        create_user_response = account_service_auth.create_user(user_request)
         self.log.info(f"\ncreate_user_response {create_user_response}\n")
         user_id = create_user_response.get("userID")
-        token = account_service_auth.generate_token(create_user_dict)
+        token = account_service_auth.generate_token(user_request)
         r = book_store_service.delete_user_books(user_id, token=token, expect=204)
         self.log.info(f"\ndelete_user_books {r} sc {r.status_code}\n")
         assert r.status_code in (200, 204)

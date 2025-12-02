@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import Callable, Any
+from typing import Callable, Any, TypeVar
 
 import pytest
 
@@ -11,14 +11,15 @@ ATTRIBUTES__ = """
     """
 log = Logger.get_logger()
 
+F = TypeVar("F", bound=Callable[..., Any])
 
 
-def html_title(title: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+def html_title(title: str) -> Callable[[F], F]:
     """
     Decorator to attach a title to the test function. Supports dynamic formatting with test parameters.
     """
 
-    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+    def decorator(func: F) -> F:
         setattr(func, "_html_title_template", title)
         setattr(func, "_html_title", title)
         return func
@@ -26,16 +27,16 @@ def html_title(title: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]
     return decorator
 
 
-def html_sub_suite(sub_suite: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+def html_sub_suite(sub_suite: str) -> Callable[[F], F]:
+    def decorator(func: F) -> F:
         setattr(func, "_html_sub_suite", sub_suite)
         return func
 
     return decorator
 
 
-def html_feature(feature: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+def html_feature(feature: str) -> Callable[[F], F]:
+    def decorator(func: F) -> F:
         setattr(func, "_feature", feature)
         return func
 
@@ -52,6 +53,7 @@ def resolve_placeholders(template: str, context: dict) -> str:
     except KeyError as e:
         return f"{template} [MISSING VAR: {e}]"
 
+
 class AttributeResolver(dict):
     """Helper class to resolve nested attributes in placeholders."""
 
@@ -64,13 +66,13 @@ class AttributeResolver(dict):
         return value.__dict__ if hasattr(value, "__dict__") else value
 
 
-def html_step(step_description: str):
+def html_step(step_description: str) -> Callable[[F], F]:
     """
     Decorator to add test steps to the Pytest report.
     Supports dynamic variable substitution, including nested attributes.
     """
 
-    def decorator(func):
+    def decorator(func: F) -> F:
         @wraps(func)
         def wrapper(*args, **kwargs):
             # Retrieve the current Pytest request context

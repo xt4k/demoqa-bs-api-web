@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from core.util.logging import Logger
 from .locators.base_page_locators import BasePageLocators as Loc
-from core.util.html_report.html_report_decorator import html_step
+from core.util.html_report.decorators import html_step
 
 DEFAULT_TIMEOUT = 10
 if TYPE_CHECKING:
