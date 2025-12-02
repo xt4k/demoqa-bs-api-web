@@ -1,0 +1,5 @@
+ENV=qa
+API_BASE=https://demoqa.com
+WEB_BASE=https://demoqa.com
+TEST_USER=auto_user11
+USER_ID=7261b1fd-1bba-444a-b47a-0e3e9601f5bb

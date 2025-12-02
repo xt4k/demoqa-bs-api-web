@@ -1,0 +1,11 @@
+curl -X POST 'https://demoqa.com/Account/v1/GenerateToken' \
+  -H 'User-Agent: python-requests/2.32.5' \
+  -H 'Accept-Encoding: gzip, deflate, zstd' \
+  -H 'Accept: application/json' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Content-Length: 54' \
+  --data-raw '{
+  "password": "@uto_User11",
+  "userName": "auto_user11"
+}'
