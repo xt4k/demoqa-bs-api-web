@@ -1,0 +1,15 @@
+{
+  "elapsed_ms": 407,
+  "headers": {
+    "Connection": "keep-alive",
+    "Content-Length": "43",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Tue, 02 Dec 2025 18:59:51 GMT",
+    "ETag": "W/\"2b-hLPYyb0m8IpHH/aFjmp8VZrYXGw\"",
+    "Server": "nginx/1.17.10 (Ubuntu)",
+    "X-Powered-By": "Express"
+  },
+  "reason": "Not Found",
+  "status_code": 404,
+  "url": "https://demoqa.com/Account/v1/Authorized"
+}
