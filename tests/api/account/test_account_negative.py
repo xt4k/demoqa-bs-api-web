@@ -31,7 +31,7 @@ class TestAccountEndpointNegative(BaseTest):
         user_request = generate_user_request()
         account_service_auth.create_user(user_request)
         bad_request =generate_user_request(userName=user_request.userName,password="123")
-        r = account_service_auth._client.generate_token_request(body=bad_request)
+        r = account_service_auth._client.generate_token_response(body=bad_request)
         with soft_assertions():
             assert_that(r.status_code).is_equal_to(200)
             assert_that(r.json().get("status")).is_equal_to("Failed")
@@ -44,7 +44,7 @@ class TestAccountEndpointNegative(BaseTest):
         user_request = generate_user_request()
         account_service_auth.create_user(user_request)
         bad_user_request = generate_user_request(userName="abcd_12345@@",password=user_request.password)
-        r = account_service_auth._client.generate_token_request(body=bad_user_request)
+        r = account_service_auth._client.generate_token_response(body=bad_user_request)
         with soft_assertions():
             assert_that(r.status_code).is_equal_to(200)
             assert_that(r.json().get("status")).is_equal_to("Failed")

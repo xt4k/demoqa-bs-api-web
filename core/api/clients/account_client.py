@@ -24,15 +24,14 @@ class AccountClient(HttpClient):
 
     @html_step("Account: Create user")
     @allure.step("Account: Create user")
-    def create_user_request(self, body: Dict[str, Any]|UserRequest, expect: StatusSpec = 201) -> Response:
+    def create_user_request(self, body: Dict[str, Any] | UserRequest, expect: StatusSpec = 201) -> Response:
         payload = body.to_dict() if isinstance(body, UserRequest) else body
         return self.post(self.ACC_USR_PATH, payload=payload, expected_status_code=expect)
 
     @html_step("Account: Generate token for body")
     @allure.step("Account: Generate token for {body}")
-    def generate_token_request(self, body: Dict[str, Any]|UserRequest, expect: StatusSpec = 200) -> Response:
-        payload = body.to_dict() if isinstance(body, UserRequest) else body
-        return self.post(f"{self.ACC_PATH}/GenerateToken", payload=payload, expected_status_code=expect)
+    def generate_token_response(self, body: UserRequest, expect: StatusSpec = 200) -> Response:
+        return self.get_generate_token_response(body=body, expect=expect)
 
     @html_step("Account: Get user user_id")
     @allure.step("Account: Get user {user_id}")
@@ -47,6 +46,6 @@ class AccountClient(HttpClient):
 
     @html_step("Account: Check authorization for body")
     @allure.step("Account: Check authorization for {body}")
-    def is_authorized_request(self, body: Dict[str, Any]|UserRequest, expect: StatusSpec = 200) -> Response:
+    def is_authorized_request(self, body: Dict[str, Any] | UserRequest, expect: StatusSpec = 200) -> Response:
         payload = body.to_dict() if isinstance(body, UserRequest) else body
         return self.post(f"{self.ACC_PATH}/Authorized", payload=payload, expected_status_code=expect)

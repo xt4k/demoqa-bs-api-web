@@ -13,7 +13,7 @@ from core.api.services.account_service import AccountService
 from core.api.services.book_store_service import BookStoreService
 from core.config.config import RunCfg, ConfigLoader
 from core.http.http_client import HttpClient
-from core.providers.data_generator import generate_user_request_dict, generate_user_request
+from core.providers.data_generator import generate_user_request
 from core.util.allure_hooks.allure import AllureApiLogger
 from core.util.html_report.decorators import html_step
 from core.util.html_report.helper import process_report, customize_header, customize_row
@@ -29,22 +29,14 @@ def run_cfg() -> RunCfg:
 
 
 @pytest.fixture(scope="session")
-def http_client(run_cfg: RunCfg) -> HttpClient | None:
-    """Single HttpClient for all tests."""
-    client = HttpClient(cfg=run_cfg, is_auth=False)
-    yield client
-    client.close()
-
-
-@pytest.fixture(scope="session")
-def env_info(http_root: HttpClient) -> RunCfg:
+def env_info(http_client: HttpClient) -> RunCfg:
     """Environment info string, reusable in tests."""
-    return http_root.cfg
+    return http_client.cfg
 
 
 @pytest.fixture(scope="session")
-def http_root() -> Generator[HttpClient, None, None]:
-    """Single shared HttpClient + install Allure response-hook."""
+def http_client() -> Generator[HttpClient, None, None]:
+    """Single shared HttpClient + Allure response-hook."""
     http = HttpClient(is_auth=False)
     AllureApiLogger().install(http.s)
 
@@ -68,20 +60,19 @@ def http_root() -> Generator[HttpClient, None, None]:
 @pytest.fixture(scope="session")
 @html_step("Provide AccountService client")
 @allure.step("Provide AccountService client")
-def account_service(http_root: HttpClient) -> AccountService:
+def account_service(http_client: HttpClient) -> AccountService:
     """Thin wrapper over HttpClient, uses shared Session."""
     log.info("AccountService uses shared HttpClient session")
-    return AccountService(client=AccountClient(session=http_root.s))
-
+    return AccountService(client=AccountClient(session=http_client.s))
 
 
 @pytest.fixture(scope="session")
 @html_step("Provide BookStoreService client")
 @allure.step("Provide BookStoreService client")
-def book_store_service(http_root: HttpClient) -> BookStoreService:
+def book_store_service(http_client: HttpClient) -> BookStoreService:
     """Thin wrapper over HttpClient, uses shared Session."""
     log.info("BookStoreService uses shared HttpClient session")
-    return BookStoreService(client=BookStoreClient(session=http_root.s))
+    return BookStoreService(client=BookStoreClient(session=http_client.s))
 
 
 @pytest.fixture(scope="session")

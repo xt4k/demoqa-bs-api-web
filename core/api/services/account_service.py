@@ -28,7 +28,7 @@ class AccountService:
     @html_step("Account: Generate token")
     @allure.step("Account: Generate token for {body}")
     def generate_token(self, body: Dict[str, Any] | UserRequest, expect: StatusSpec = 200) -> str:
-        r = self._client.generate_token_request(body, expect=expect)
+        r = self._client.generate_token_response(body, expect=expect)
         token = (r.json() or {}).get("token", "")
         if not token:
             raise AssertionError(f"Token not returned: {r.text[:300]}")

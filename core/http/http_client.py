@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from typing import Any, Mapping, MutableMapping, Optional, Sequence, Union, Set
+from typing import Any, Mapping, MutableMapping, Optional, Sequence, Union, Set, Dict
 
 import allure
 import requests
@@ -12,7 +12,9 @@ from requests import Response, Session
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from core.api.models.user import UserRequest
 from core.config.config import ConfigLoader, RunCfg
+from core.providers.data_generator import generate_user_request
 from core.util.html_report.decorators import html_step
 from core.util.logging import Logger
 
@@ -88,7 +90,7 @@ class HttpClient:
 
         self.log.info(f"Initialized base={self.base}, timeout={self.timeout}s, authenticated={is_auth}")
         if is_auth:
-            self.authenticate()
+            self.authenticate_default()
 
     # ---------- config ----------
     @classmethod
@@ -121,28 +123,28 @@ class HttpClient:
     @allure.step("authenticate for default user")
     def authenticate_default(self) -> HttpClient:
         self.log.info(f"Acquiring token for default user '{self.cfg.api_user_name}'")
-        token = self._generate_token(self.cfg.api_user_name, self.cfg.api_user_password)
+
+        user_request = generate_user_request(userName=self.cfg.api_user_name, password=self.cfg.api_user_password)
+        token = self._generate_token(user_request)
         self.set_bearer(token)
         self.log.info("Token for default user acquired successfully")
         return self
 
-    @allure.step("authenticate for {username}")
-    def authenticate(self) -> str:
-        user = self.cfg.api_user_name
-        self.log.info(f"Acquiring token for default api_user '{user}'")
-        token = self._generate_token(user, self.cfg.api_user_password)
-        self.set_bearer(token)
-        self.log.info("Token acquired successfully")
-        return token
-
-    def _generate_token(self, username: str, password: str) -> str:
-        body = {"userName": username, "password": password}
-        r = self.post("/Account/v1/GenerateToken", payload=body, expected_status_code=200)
+    @html_step("Base http client: Return generated token")
+    @allure.step("Base http client: Return generated token")
+    def _generate_token(self, body: UserRequest) -> str:
+        r = self.get_generate_token_response(body)
         token = (r.json() or {}).get("token")
         if not token:
             self.log.error("Token was not returned by API")
             raise AssertionError(f"Token not returned: {_shorten(r.text)}")
         return token
+
+    @html_step("Base http client: Get generate token response")
+    @allure.step("Base http client: Get generate token response")
+    def get_generate_token_response(self, body: Dict[str, Any] | UserRequest, expect: StatusSpec = 200) -> Response:
+        payload = body.to_dict() if isinstance(body, UserRequest) else body
+        return self.post("/Account/v1/GenerateToken", payload=payload, expected_status_code=expect)
 
     # ---------- low-level ----------
     @allure.step("send {method} request to {endpoint}")

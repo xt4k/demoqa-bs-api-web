@@ -30,7 +30,7 @@ class TestAccountEndpoint(BaseTest):
     def test_get_user_token(self, account_service_auth: AccountService):
         user_request = generate_user_request()
         account_service_auth.create_user(user_request)
-        r = account_service_auth._client.generate_token_request(body=user_request)
+        r = account_service_auth._client.generate_token_response(body=user_request)
         with (soft_assertions()):
             assert_that(r.status_code).is_equal_to(200)
             assert_that(r.json().get("status")).is_equal_to("Success")

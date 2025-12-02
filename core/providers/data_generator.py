@@ -20,12 +20,6 @@ def random_username(prefix: str = "auto_user") -> str:
     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
     return f"{prefix}_{suffix}_{now_suffix()}"
 
-
-@allure.step("Generate a defined user request dict")
-def get_user_request_from_tuple(creds: tuple[str, str]) -> dict:
-    return {"userName": creds[0], "password": creds[1]}
-
-
 @allure.step("Generate a random valid password")
 def generate_password() -> str:
     core = "1Aa@"
