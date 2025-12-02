@@ -1,0 +1,13 @@
+{
+  "elapsed_ms": 1081,
+  "headers": {
+    "Connection": "keep-alive",
+    "Date": "Tue, 02 Dec 2025 19:12:37 GMT",
+    "ETag": "W/\"58-rs0LZreZpnaO/qnvkrAW69DJw3E\"",
+    "Server": "nginx/1.17.10 (Ubuntu)",
+    "X-Powered-By": "Express"
+  },
+  "reason": "No Content",
+  "status_code": 204,
+  "url": "https://demoqa.com/Account/v1/User/4e604594-d85a-4753-8f78-a6e6d6c86b50"
+}
