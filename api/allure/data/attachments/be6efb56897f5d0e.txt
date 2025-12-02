@@ -1,0 +1,8 @@
+curl -X DELETE 'https://demoqa.com/BookStore/v1/Books?UserId=1e9b01af-8f99-42fd-8494-615580133ffb' \
+  -H 'User-Agent: python-requests/2.32.5' \
+  -H 'Accept-Encoding: gzip, deflate, zstd' \
+  -H 'Accept: application/json' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: ***' \
+  -H 'Content-Length: 0'
