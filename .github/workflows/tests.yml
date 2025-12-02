@@ -1,4 +1,4 @@
-name: tests
+name: api_ui_test_deploy_pipeline
 
 on:
   push:
@@ -10,28 +10,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
           cache: 'pip'
+
       - run: pip install -r requirements.txt
+
       - name: Run mypy
         run: |
           mypy . | tee mypy-report.txt
+
       - name: Upload mypy report
         uses: actions/upload-artifact@v4
         with:
           name: mypy-report
           path: mypy-report.txt
+          if-no-files-found: ignore
 
   api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
           cache: 'pip'
+
       - run: pip install -r requirements.txt
 
       - name: Run API tests (xdist)
@@ -52,15 +59,18 @@ jobs:
           path: |
             allure-results
             reports/pytest-report-api.html
+          if-no-files-found: ignore
 
   ui:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
           cache: 'pip'
+
       - name: Setup Chrome
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
@@ -76,7 +86,7 @@ jobs:
             -n 4 \
             --dist=loadgroup \
             --alluredir=allure-results \
-            --html=reports/report-ui.html \
+            --html=reports/pytest-report-ui.html \
             --self-contained-html
         continue-on-error: true
 
@@ -86,12 +96,14 @@ jobs:
           name: ui-reports
           path: |
             allure-results
-            reports/report-ui.html
+            reports/pytest-report-ui.html
+          if-no-files-found: ignore
 
   publish-reports:
     name: Publish Allure & HTML reports to GitHub Pages
     runs-on: ubuntu-latest
     needs: [api, ui]
+    if: always()
     steps:
       - name: Download API reports
         uses: actions/download-artifact@v4
@@ -99,11 +111,12 @@ jobs:
           name: api-reports
           path: api-reports
 
-      - name: Download UI reports
+      - name: Download UI reports (optional)
         uses: actions/download-artifact@v4
         with:
           name: ui-reports
           path: ui-reports
+          if-no-artifact-found: ignore
 
       - name: Install Allure CLI
         run: |
@@ -116,18 +129,25 @@ jobs:
         run: |
           mkdir -p site
 
-          # API Allure
-          allure generate api-reports/allure-results --clean -o site/api/allure
+          # API Allure (optional but usually present)
+          if [ -d "api-reports/allure-results" ]; then
+            mkdir -p site/api
+            allure generate api-reports/allure-results --clean -o site/api/allure || echo "API Allure generation failed"
+            if [ -f "api-reports/reports/pytest-report-api.html" ]; then
+              cp api-reports/reports/pytest-report-api.html site/api/report-api.html
+            fi
+          fi
 
-          # UI Allure
-          allure generate ui-reports/allure-results --clean -o site/ui/allure
+          # UI Allure (optional – may be absent)
+          if [ -d "ui-reports/allure-results" ]; then
+            mkdir -p site/ui
+            allure generate ui-reports/allure-results --clean -o site/ui/allure || echo "UI Allure generation failed"
+            if [ -f "ui-reports/reports/pytest-report-ui.html" ]; then
+              cp ui-reports/reports/pytest-report-ui.html site/ui/report-ui.html
+            fi
+          fi
 
-          # Copy pytest HTML reports
-          mkdir -p site/api site/ui
-          cp api-reports/reports/report-api.html site/api/report-api.html
-          cp ui-reports/reports/report-ui.html site/ui/report-ui.html
-
-          # Simple index page with links
+          # Simple index page with links (UI links можуть 404, якщо звітів немає)
           cat > site/index.html << 'EOF'
           <!doctype html>
           <html>
