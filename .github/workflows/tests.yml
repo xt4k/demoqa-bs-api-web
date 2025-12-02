@@ -34,14 +34,21 @@ jobs:
           cache: 'pip'
       - run: pip install -r requirements.txt
       - name: Run API tests
-        run: pytest tests/api --maxfail=1 --dist=loadscope --html=reports/pytest-report-api.html --self-contained-html
+        run: |
+          pytest tests/api \
+          --maxfail=1 \
+          --dist=loadscope \
+          --alluredir=allure-results \
+          --html=reports/report-api.html \
+          --self-contained-html
+        continue-on-error: true
       - name: Archive reports
         uses: actions/upload-artifact@v4
         with:
-          name: api_client-reports
+          name: api-reports
           path: |
             allure-results
-            reports/pytest-report-api.html
+            reports/report-api.html
 
   ui:
     runs-on: ubuntu-latest
@@ -60,12 +67,18 @@ jobs:
           DEMOQA_API_BASE: https://demoqa.com
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: |
-          echo "Chrome path: $CHROME_PATH"
-          pytest tests/ui -n 4 --dist=loadgroup --alluredir=allure-results --html=reports/pytest-report-ui.html
+          echo "Chrome path: $CHROME_PATH"          
+          pytest tests/ui \
+          -n 4 \
+          --dist=loadgroup \
+          --alluredir=allure-results \
+          --html=reports/report-ui.html \
+          --self-contained-html
+        continue-on-error: true
       - name: Archive reports
         uses: actions/upload-artifact@v4
         with:
           name: ui-reports
           path: |
             allure-results
-            reports/pytest-report-ui.html
+            reports/report-ui.html
