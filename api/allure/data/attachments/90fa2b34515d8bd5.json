@@ -1,0 +1,13 @@
+{
+  "elapsed_ms": 679,
+  "headers": {
+    "Connection": "keep-alive",
+    "Date": "Wed, 03 Dec 2025 19:27:24 GMT",
+    "ETag": "W/\"44-1mNkCgFWXrysm2bVvAhS6jkBOlQ\"",
+    "Server": "nginx/1.17.10 (Ubuntu)",
+    "X-Powered-By": "Express"
+  },
+  "reason": "No Content",
+  "status_code": 204,
+  "url": "https://demoqa.com/BookStore/v1/Books?UserId=c7e729c2-ed58-45a7-aaf9-f1b30b41594f"
+}

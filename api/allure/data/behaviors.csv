@@ -1,5 +1,5 @@
 "Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
-"Python_ecosystem_automation_testing","Endpoint 'BookStore' happy-path validation","Verify endpoint `happy-path`","1","0","1","0","0"
-"Python_ecosystem_automation_testing","Endpoint 'Account' happy-path validation","Verify endpoint `happy-path`","0","0","6","0","0"
+"Python_ecosystem_automation_testing","Endpoint 'Account' happy-path validation","Verify endpoint `happy-path`","1","0","0","0","0"
+"Python_ecosystem_automation_testing","Endpoint 'BookStore' happy-path validation","Verify endpoint `happy-path`","0","0","3","0","0"
+"Python_ecosystem_automation_testing","Endpoint 'Account' negative flow validation","Verify endpoint `unhappy-path` functionality","0","0","8","0","0"
 "Python_ecosystem_automation_testing","Endpoint 'BookStore' negative flow validation","Verify endpoint `unhappy-path` functionality","1","0","1","0","0"
-"Python_ecosystem_automation_testing","Endpoint 'Account' negative flow validation","Verify endpoint `unhappy-path` functionality","1","0","0","0","0"
