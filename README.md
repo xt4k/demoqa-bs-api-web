@@ -331,7 +331,6 @@ From the landing page you can navigate to:
 `https://xt4k.github.io/demoqa-bs-api-web/ui/allure/index.html`
 - UI – pytest HTML report
 `https://xt4k.github.io/demoqa-bs-api-web/ui/report-ui.html`
-<img width="3089" height="1743" alt="image" src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" />
 
 ### Screenshots
 0.  **How to open reports**
@@ -348,23 +347,14 @@ From the landing page you can navigate to:
 
 4. **Allure API tests**
 <p align="center"> <img src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" width="700"> </p>
+<p align="center"> <img src="https://github.com/user-attachments/assets/d6329b70-3d2a-47cb-828b-7cacbf5a0a36" width="700"> </p>
 
 5. **Allure UI tests**
 <p align="center"> <img src="https://github.com/user-attachments/assets/9b3e9f8b-ca23-4f42-b3cc-59c7f655515e" width="700"> </p>
 <p align="center"> <img src="https://github.com/user-attachments/assets/f1074e9a-5a8b-4452-836f-9bc33b625675" width="700"> </p>
 
-4. **Allure suites view**
-<p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/allure-suites.png" width="700"> </p>
-
-5. **Allure detailed test execution (example)**
-<p align="center"> <img src="https://github.com/user-attachments/assets/f7fb2b6e-b6e9-46b9-a7b5-2adabaf5eacc" width="700"> </p>
-
-5. **Allure detailed test execution (example)**
-<p align="center"> <img src="https://github.com/user-attachments/assets/d6329b70-3d2a-47cb-828b-7cacbf5a0a36" width="700"> </p>
-
-
-
 ### Implemented test coverage
+<img width="3728" height="2087" alt="image" src="https://github.com/user-attachments/assets/e45cd926-ebf5-4a3c-b1c2-9504c0f4e12c" />
 #### API
 **Account service (`/Account/v1`)**
 
