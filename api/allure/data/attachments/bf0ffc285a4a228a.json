@@ -1,0 +1,15 @@
+{
+  "elapsed_ms": 893,
+  "headers": {
+    "Connection": "keep-alive",
+    "Content-Length": "312",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Wed, 03 Dec 2025 19:40:01 GMT",
+    "ETag": "W/\"138-u2qHEZbe5+Wmc3+t9W0ZGguSK8A\"",
+    "Server": "nginx/1.17.10 (Ubuntu)",
+    "X-Powered-By": "Express"
+  },
+  "reason": "OK",
+  "status_code": 200,
+  "url": "https://demoqa.com/Account/v1/GenerateToken"
+}
