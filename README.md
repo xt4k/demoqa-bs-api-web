@@ -334,24 +334,32 @@ From the landing page you can navigate to:
 <img width="3089" height="1743" alt="image" src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" />
 
 ### Screenshots
-1. **API pytest HTML report**
-<p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/api-html-report.png" width="600"> </p>
+1. **Landing page with report links (GitHub Pages)**
+<p align="center"> <img src="https://github.com/user-attachments/assets/cc80c2c6-2e22-426d-a934-9b8549030607" width="400"> </p>
 
-2. **Landing page with report links (GitHub Pages)**
+2. **API pytest-html report**
+<p align="center"> <img src="https://github.com/user-attachments/assets/59b11824-c063-4eb9-8c04-5afbc9c0ca09" width="600"> </p>
 
-<p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/index-page.png" width="400"> </p>
+3. **UI pytest-html report**
+<p align="center"> <img src="https://github.com/user-attachments/assets/38e59f91-1bb4-4034-aa26-64df65a71129" width="600"> </p>
 
-3. **Allure overview (API tests)**
-<img width="1108" height="515" alt="image" src="https://github.com/user-attachments/assets/6b5a2026-7bbe-4f2d-bbe0-1a8a5677ce48" />
-
+4. **Allure API tests**
 <p align="center"> <img src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" width="700"> </p>
 
-4. **Allure suites view**
+4. **Allure UI tests**
+<p align="center"> <img src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" width="700"> </p>
 
+<img width="1793" height="1379" alt="image" src="https://github.com/user-attachments/assets/9b3e9f8b-ca23-4f42-b3cc-59c7f655515e" />
+
+
+4. **Allure suites view**
 <p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/allure-suites.png" width="700"> </p>
 
 5. **Allure detailed test execution (example)**
-<p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/allure-test-details.png" width="700"> </p>
+<p align="center"> <img src="https://github.com/user-attachments/assets/f7fb2b6e-b6e9-46b9-a7b5-2adabaf5eacc" width="700"> </p>
+<p align="center"> <img src="https://github.com/user-attachments/assets/d6329b70-3d2a-47cb-828b-7cacbf5a0a36" width="700"> </p>
+
+
 
 ### Implemented test coverage
 #### API
