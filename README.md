@@ -354,7 +354,6 @@ From the landing page you can navigate to:
 <p align="center"> <img src="https://github.com/user-attachments/assets/f1074e9a-5a8b-4452-836f-9bc33b625675" width="700"> </p>
 
 ### Implemented test coverage
-<img width="3728" height="2087" alt="image" src="https://github.com/user-attachments/assets/e45cd926-ebf5-4a3c-b1c2-9504c0f4e12c" />
 #### API
 **Account service (`/Account/v1`)**
 
