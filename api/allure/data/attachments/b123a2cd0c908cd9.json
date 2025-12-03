@@ -1,0 +1,15 @@
+{
+  "elapsed_ms": 147,
+  "headers": {
+    "Connection": "keep-alive",
+    "Content-Length": "40",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Wed, 03 Dec 2025 19:06:20 GMT",
+    "ETag": "W/\"28-Ol+1T9TtJMfkxjesktiJwJPAuBU\"",
+    "Server": "nginx/1.17.10 (Ubuntu)",
+    "X-Powered-By": "Express"
+  },
+  "reason": "Not Acceptable",
+  "status_code": 406,
+  "url": "https://demoqa.com/Account/v1/User"
+}
