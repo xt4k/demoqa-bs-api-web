@@ -1,0 +1,13 @@
+{
+  "elapsed_ms": 595,
+  "headers": {
+    "Connection": "keep-alive",
+    "Content-Length": "167",
+    "Content-Type": "text/html",
+    "Date": "Wed, 03 Dec 2025 19:19:03 GMT",
+    "Server": "nginx/1.17.10 (Ubuntu)"
+  },
+  "reason": "Bad Gateway",
+  "status_code": 502,
+  "url": "https://demoqa.com/Account/v1/GenerateToken"
+}
