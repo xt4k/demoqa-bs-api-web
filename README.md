@@ -334,6 +334,9 @@ From the landing page you can navigate to:
 <img width="3089" height="1743" alt="image" src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" />
 
 ### Screenshots
+0.  **How to open reports**
+<p align="center"> <img src="https://github.com/user-attachments/assets/a954bcb8-5804-48d6-9add-c20b90c0d3b0" width="400"> </p>
+
 1. **Landing page with report links (GitHub Pages)**
 <p align="center"> <img src="https://github.com/user-attachments/assets/cc80c2c6-2e22-426d-a934-9b8549030607" width="400"> </p>
 
@@ -346,8 +349,7 @@ From the landing page you can navigate to:
 4. **Allure API tests**
 <p align="center"> <img src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" width="700"> </p>
 
-4. **Allure UI tests**
-<p align="center"> <img src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" width="700"> </p>
+5. **Allure UI tests**
 <p align="center"> <img src="https://github.com/user-attachments/assets/9b3e9f8b-ca23-4f42-b3cc-59c7f655515e" width="700"> </p>
 <p align="center"> <img src="https://github.com/user-attachments/assets/f1074e9a-5a8b-4452-836f-9bc33b625675" width="700"> </p>
 
