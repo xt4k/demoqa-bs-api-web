@@ -1,0 +1,7 @@
+curl -X GET 'https://demoqa.com/Account/v1/User/d455b075-03bd-4b8e-a4dd-77c0c386e149' \
+  -H 'User-Agent: python-requests/2.32.5' \
+  -H 'Accept-Encoding: gzip, deflate, zstd' \
+  -H 'Accept: application/json' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: ***'
