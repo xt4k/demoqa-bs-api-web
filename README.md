@@ -1,7 +1,7 @@
 # Py-ecosystem UI & API testing for DemoQA Book Store
 
 ##### Demo project for Python UI/API/E2E automation around `https://demoqa.com/`
-![DemoQA logo](https://github.com/user-attachments/assets/a20464e8-15a4-4fc2-95f9-ba2c8cf89695)
+![DemoQA logo]()
 
 ---
 
@@ -21,15 +21,13 @@
 - [Implemented test coverage](#implemented-test-coverage)
   - [API](#api)
   - [UI](#ui)
-- [Future improvements](#future-improvements)
-
 ---
 
 ## Technology stack
 
 | GitHub | GitHub Actions | PyCharm | Python | pytest / xdist | requests | Selenium | Allure | pytest-html | GitHub Pages |
 |:------:|:--------------:|:-------:|:------:|:--------------:|:--------:|:--------:|:------:|:-----------:|:------------:|
-| <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" width="40" height="40"> | <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm_icon.png" width="40" height="40"> | <img src="https://www.python.org/static/opengraph-icon-200x200.png" width="40" height="40"> | <img src="https://docs.pytest.org/en/stable/_static/pytest1.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/21003710?s=200&v=4" width="40" height="40"> | <img src="https://selenium.dev/images/selenium_logo_square_green.png" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/9d820a8e-d47d-4d28-b724-0dc27ece1e81" width="40" height="40"> | <img src="https://raw.githubusercontent.com/pytest-dev/pytest-html/master/doc/_static/logo.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40"> |
+| <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" width="40" height="40"> | <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm_icon.png" width="40" height="40"> | <img src="https://www.python.org/static/opengraph-icon-200x200.png" width="40" height="40"> | <img src="https://docs.pytest.org/en/stable/_static/pytest1.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/21003710?s=200&v=4" width="40" height="40"> | <img src="https://selenium.dev/images/selenium_logo_square_green.png" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/9d820a8e-d47d-4d28-b724-0dc27ece1e81" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/a20464e8-15a4-4fc2-95f9-ba2c8cf89695" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40"> |
 
 **Key points:**
 
