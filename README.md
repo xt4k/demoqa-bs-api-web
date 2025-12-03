@@ -331,6 +331,7 @@ From the landing page you can navigate to:
 `https://xt4k.github.io/demoqa-bs-api-web/ui/allure/index.html`
 - UI – pytest HTML report
 `https://xt4k.github.io/demoqa-bs-api-web/ui/report-ui.html`
+<img width="3089" height="1743" alt="image" src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" />
 
 ### Screenshots
 1. **API pytest HTML report**
@@ -341,8 +342,9 @@ From the landing page you can navigate to:
 <p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/index-page.png" width="400"> </p>
 
 3. **Allure overview (API tests)**
+<img width="1108" height="515" alt="image" src="https://github.com/user-attachments/assets/6b5a2026-7bbe-4f2d-bbe0-1a8a5677ce48" />
 
-<p align="center"> <img src="https://github.com/xt4k/demoqa-bs-api-web/assets/XXXX/allure-overview.png" width="700"> </p>
+<p align="center"> <img src="https://github.com/user-attachments/assets/37fd2d0e-31e9-485d-a776-8f7040dd27aa" width="700"> </p>
 
 4. **Allure suites view**
 
