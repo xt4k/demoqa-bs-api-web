@@ -23,8 +23,6 @@
   - [UI](#ui)
 ---
 
-<img width="225" height="225" alt="image" src="https://github.com/user-attachments/assets/dc0ebbe7-d808-4809-a2df-51053db9ed80" />
-
 
 ## Technology stack
 
