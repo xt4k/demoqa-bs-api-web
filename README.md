@@ -22,13 +22,13 @@
   - [API](#api)
   - [UI](#ui)
 ---
-<img width="747" height="226" alt="image" src="https://github.com/user-attachments/assets/07b9e746-41fb-4a5e-88c8-a97a668f0db5" />
+
 
 ## Technology stack
 
 | GitHub | GitHub Actions | PyCharm | Python | pytest / xdist | requests | Selenium | Allure | pytest-html | GitHub Pages |
 |:------:|:--------------:|:-------:|:------:|:--------------:|:--------:|:--------:|:------:|:-----------:|:------------:|
-| <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" width="40" height="40"> | <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm_icon.png" width="40" height="40"> | <img src="https://www.python.org/static/opengraph-icon-200x200.png" width="40" height="40"> | <img src="https://docs.pytest.org/en/stable/_static/pytest1.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/21003710?s=200&v=4" width="40" height="40"> | <img src="https://selenium.dev/images/selenium_logo_square_green.png" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/9d820a8e-d47d-4d28-b724-0dc27ece1e81" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/07b9e746-41fb-4a5e-88c8-a97a668f0db5" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40"> |
+| <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" width="40" height="40"> | <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm_icon.png" width="40" height="40"> | <img src="https://www.python.org/static/opengraph-icon-200x200.png" width="40" height="40"> | <img src="https://docs.pytest.org/en/stable/_static/pytest1.png" width="40" height="40"> | <img src="https://avatars.githubusercontent.com/u/21003710?s=200&v=4" width="40" height="40"> | <img src="https://selenium.dev/images/selenium_logo_square_green.png" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/9d820a8e-d47d-4d28-b724-0dc27ece1e81" width="40" height="40"> | <img src="https://github.com/user-attachments/assets/07b9e746-41fb-4a5e-88c8-a97a668f0db5" width="90" height="60"> | <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40"> |
 
 **Key points:**
 
