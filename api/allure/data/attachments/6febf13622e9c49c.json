@@ -1,0 +1,15 @@
+{
+  "elapsed_ms": 808,
+  "headers": {
+    "Connection": "keep-alive",
+    "Content-Length": "106",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 04 Dec 2025 11:46:25 GMT",
+    "ETag": "W/\"6a-2gJ0ODRUZxV61z1eBgA+bZUm8XQ\"",
+    "Server": "nginx/1.17.10 (Ubuntu)",
+    "X-Powered-By": "Express"
+  },
+  "reason": "Created",
+  "status_code": 201,
+  "url": "https://demoqa.com/Account/v1/User"
+}

@@ -1,0 +1,8 @@
+curl -X DELETE 'https://demoqa.com/Account/v1/User/8d3dbc49-1697-41b6-a2ba-9676baad018a1q' \
+  -H 'User-Agent: python-requests/2.32.5' \
+  -H 'Accept-Encoding: gzip, deflate, zstd' \
+  -H 'Accept: application/json' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: ***' \
+  -H 'Content-Length: 0'
