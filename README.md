@@ -1,7 +1,8 @@
 # Py-ecosystem UI & API testing for DemoQA Book Store
 
 ##### Demo project for Python UI/API/E2E automation around `https://demoqa.com/`
-![DemoQA logo]()
+<img width="347" height="100" alt="image" src="https://github.com/user-attachments/assets/5275d03c-7134-4fc8-b792-956af0e01cc8" />
+
 
 ---
 
